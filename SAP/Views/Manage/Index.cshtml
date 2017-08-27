@@ -1,0 +1,81 @@
+﻿@model SAP.Models.ProfileViewModel
+
+
+
+
+
+
+<div class="container">
+    @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        <fieldset>
+            <!-- Form Name -->
+            <legend>My Profile</legend>
+            <p>@ViewBag.Updated</p>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Full Name</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control input-md" } })
+                </div>
+            </div>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Age</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control input-md" } })
+                    @Html.ValidationMessageFor(model=>model.Age,"", new { @class = "text-danger"})
+                </div>
+            </div>
+            <!-- Text input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Username</label>
+                <div class="col-md-4">
+                   @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control input-md" } })
+                </div>
+            </div>
+     
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Email</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-md" , disabled = true} })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Phone Number</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control input-md"} })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                
+               
+                
+                    <label  class="col-md-4 control-label">Password:</label>
+                    <div class="col-md-4">
+                            @Html.ActionLink("Change your password", "ChangePassword")
+                    </div>
+
+
+
+               
+            </div>
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

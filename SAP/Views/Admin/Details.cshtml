@@ -1,0 +1,55 @@
+﻿@model SAP.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h1 class="page-header">
+    
+    <small>User details</small>
+</h1>
+
+<div>
+   
+    <dl class="dl-horizontal">
+     
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+       
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayName("User Role")
+        </dt>
+
+        <dd>
+            @ViewBag.Role
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailConfirmed)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <a href="@Url.Action("Index","Admin")"><i class="glyphicon glyphicon-arrow-left"></i></a>
+</p>

@@ -1,0 +1,59 @@
+﻿@model PagedList<SAP.Models.Survey>
+@using Webdiyer.WebControls.Mvc
+@{
+
+    var attr = Request.QueryString["attr"] ?? "0";
+    string Category = Request.QueryString["Category"] ?? null;
+    string search = Request.QueryString["search"] ?? null;
+    string sortBy = Request.QueryString["sortBy"] ?? null;
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>
+    Surveys
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Create","Surveys")"><i class="glyphicon glyphicon-plus"></i></a>
+            }
+        }
+    }
+    
+</h4>
+@using (Html.BeginForm("Index", ViewContext.RouteData.GetRequiredString("Controller"), new RouteValueDictionary { { "id", "" } }, FormMethod.Get))
+{
+    @Html.Hidden("attr", attr)
+    @Html.Hidden("sortBy", sortBy)
+    <div class="form-inline well well-sm">
+        <label>Search...</label>
+        <input type="text" name="search" class="form-control" style="width:180px" placeholder="Search by name...">
+
+        <label>Choose a category...</label>
+        @Html.DropDownList("Category", null, "", htmlAttributes: new { @class = "form-control" })
+        <button class="btn btn-primary" type="submit">Go!</button>
+        @Html.ActionLink("Reset", "Index", new { attr = attr, search = "", Category = "", sortBy = "" }, new { @class = "btn btn-default" })
+    </div>
+}
+<hr />
+
+@Html.Partial("_IndexPartial", Model)
+<div class="pull-left">
+    @Html.Pager(Model).Options(o => o.SetPageIndexParameterName("id").SetPagerItemTemplate("<li>{0}</li>").SetCurrentPagerItemTemplate("<li class=\"active\"><a href=\"#\">{0}</a></li>").SetDisabledPagerItemTemplate("<li class=\"disabled\"><a>{0}</a></li>").SetCssClass("pagination"))
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/app/app.js"></script>
+    <script>
+    //$(function () {
+    //    $('[data-toggle="popover"]').popover();
+    //});
+    </script>
+}
+

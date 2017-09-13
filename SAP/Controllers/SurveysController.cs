@@ -158,10 +158,10 @@ namespace SAP.Controllers
 
             var list = new List<SurveyStatistics>();
             var survey = db.OfflineQuestion.Where(x => x.id_question.Equals(id_clicked)).ToList().FirstOrDefault();
-            var question = survey.question_text;
+            //
             if (survey != null)
             {
-
+                var question = survey.question_text;    
                 var offlineQuery = (from OffAnswer in db.OfflineAnswer
                              join OffQuestion in db.OfflineQuestion on OffAnswer.id_question equals OffQuestion.id_question
 

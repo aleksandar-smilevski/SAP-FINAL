@@ -259,7 +259,10 @@ namespace SAP.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("", e.Message);
+                    var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                    string userRole = db.Roles.Where(x => x.Users.Any(y => y.UserId == user.Id)).Select(x => x.Name).FirstOrDefault();
+                    ViewBag.UserRole = new SelectList(list, "Value", "Text", userRole);
+                    ModelState.AddModelError("", "An error occured during update of user. Please try again!");
                     return View(user);
                 }
             }

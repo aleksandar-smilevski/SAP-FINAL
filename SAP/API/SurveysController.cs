@@ -220,6 +220,12 @@ namespace SAP.API
 
             using (var smtpClient = new SmtpClient())
             {
+                System.Net.NetworkCredential networkCred = new System.Net.NetworkCredential();
+                networkCred.UserName = "sap.mail.info@gmail.com";
+                networkCred.Password = "Admin123!";
+                smtpClient.UseDefaultCredentials = true;
+                smtpClient.Credentials = networkCred;
+                smtpClient.Send(message);
                 await smtpClient.SendMailAsync(message);
             }
         }

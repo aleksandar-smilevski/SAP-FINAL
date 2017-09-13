@@ -15,7 +15,7 @@
 
 
     @foreach (var item in Model)
-            {
+    {
 
 
         <tr>
@@ -37,35 +37,44 @@
 
 </table>
 
-@{
+<div id="visualisation">
+    
+</div>
+<a href="/Surveys/Index">BACK</a>
 
-    int i = 0;
-    string[] answers = new string[Model.Count()];
+<link href="~/Content/d4.css" rel="stylesheet" />
+@section Scripts {
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="~/Scripts/d4.min.js"></script>
+    <script>
+        var graphData = [];
 
-    foreach (var item in Model)
-    {
-        answers[i] = item.answerName;
-        i++;
-    }
-    i = 0;
-    int[] values = new int[Model.Count()];
-    foreach (var item in Model)
-    {
-        values[i] = item.count;
-        i++;
-    }
+        @foreach (var data in Model)
+        {
+            <text>
+                graphData.push({
+                    x: '@data.answerName',
+                    y: '@data.count'
+                });
+            </text>
+        }
 
-    var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Green)
-        .AddTitle(Model.FirstOrDefault().questionName)
-        .AddSeries(
-        name: Model.FirstOrDefault().questionName,
-        xValue: answers,
-        yValues: values)
-        .Write();
+        var chart = d4.charts.column();
+        d3.select('#visualisation')
+            .datum(graphData)
+            .call(chart);
 
-    <a href="/Surveys/Index">BACK</a>
+    </script>
+
 }
-
-
+@* 123123123123	1
+    1323123	1
+    999999999	1
+    asdasdasd	1
+    efnhjkfb	1
+    fekldqwn	1
+    Student	7
+    Studenta	4
+    Students	2 *@
 
 

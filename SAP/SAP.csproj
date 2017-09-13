@@ -313,6 +313,7 @@
     <Content Include="Content\blank-page.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\d4.css" />
     <Content Include="Content\desk-wallpapers-1.jpg" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\sb-admin.css" />
@@ -355,6 +356,7 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\d4.min.js" />
     <Content Include="Scripts\directive.pagination.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chooseCategory.js" />

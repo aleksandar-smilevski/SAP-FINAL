@@ -176,6 +176,11 @@ namespace SAP.Controllers
 
             using (var smtpClient = new SmtpClient())
             {
+                System.Net.NetworkCredential networkCred = new System.Net.NetworkCredential();
+                networkCred.UserName = "sap.mail.info@gmail.com";
+                networkCred.Password = "Admin123!";
+                smtpClient.UseDefaultCredentials = true;
+                smtpClient.Credentials = networkCred;
                 smtpClient.Send(message);
             }
         }
@@ -218,37 +223,45 @@ namespace SAP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var appuser = db.Users.Where(x => x.Id == user.Id).FirstOrDefault();
-                if (appuser == null)
+                try
                 {
-                    return HttpNotFound();
-                }
-                appuser.Age = user.Age;
-                appuser.FirstName = user.FirstName;
-                appuser.PhoneNumber = user.PhoneNumber;
-                appuser.UserName = user.UserName;
-
-                db.Entry(appuser).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-
-                if (UserManager.IsInRole(user.Id, "Admin"))
-                {
-                    if(user.UserRole != "Admin")
+                    var appuser = db.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+                    if (appuser == null)
                     {
-                        UserManager.RemoveFromRole(user.Id, "Admin");
-                        UserManager.AddToRole(user.Id, "Interviewer");
+                        return HttpNotFound();
                     }
-                    
-                }
-                else
-                {
-                    if (user.UserRole != "Interviewer")
+                    appuser.Age = user.Age;
+                    appuser.FirstName = user.FirstName;
+                    appuser.PhoneNumber = user.PhoneNumber;
+                    appuser.UserName = user.UserName;
+
+                    db.Entry(appuser).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    if (UserManager.IsInRole(user.Id, "Admin"))
                     {
-                        UserManager.RemoveFromRole(user.Id, "Interviewer");
-                        UserManager.AddToRole(user.Id, "Admin");
+                        if (user.UserRole != "Admin")
+                        {
+                            UserManager.RemoveFromRole(user.Id, "Admin");
+                            UserManager.AddToRole(user.Id, "Interviewer");
+                        }
+
                     }
+                    else
+                    {
+                        if (user.UserRole != "Interviewer")
+                        {
+                            UserManager.RemoveFromRole(user.Id, "Interviewer");
+                            UserManager.AddToRole(user.Id, "Admin");
+                        }
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                    return View(user);
+                }
             }
             return View(user);
         }
